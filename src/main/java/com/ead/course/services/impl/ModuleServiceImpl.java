@@ -15,7 +15,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class ModuleServiceImpl implements ModuleService {
@@ -29,23 +28,13 @@ public class ModuleServiceImpl implements ModuleService {
     @Transactional
     @Override
     public void delete(ModuleModel moduleModel) {
-        List<LessonModel> lessons = lessonRepository
-                .findAllLessonsIntoModule(moduleModel.getModuleId())
-                .stream()
-                .collect(Collectors.toList());
+        List<LessonModel> lessons = lessonRepository.findAllLessonsIntoModule(moduleModel.getModuleId());
 
-
-        // Em seguida, exclua todas as lições usando a lista de IDs
-        lessonRepository.deleteAll(lessons);
-
+        if (!lessons.isEmpty()){
+            lessonRepository.deleteAll(lessons);
+        }
         // Por fim, delete o módulo
         moduleRepository.delete(moduleModel);
-
-//        List<LessonModel> lessonModelList = lessonRepository.findAllLessonsIntoModule(moduleModel.getModuleId());
-//        if (!lessonModelList.isEmpty()){
-//            lessonRepository.deleteAll(lessonModelList);
-//        }
-//        moduleRepository.delete(moduleModel);
     }
 
     @Override
@@ -72,6 +61,5 @@ public class ModuleServiceImpl implements ModuleService {
     public Page<ModuleModel> findAllByCourse(Specification<ModuleModel> spec, Pageable pageable) {
         return moduleRepository.findAll(spec, pageable);
     }
-
 
 }

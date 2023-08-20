@@ -96,12 +96,12 @@ public class LessonController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(lessonModelOptional.get());
     }
-
+    
 
     @GetMapping("/modules/{moduleId}/lessons")
     public ResponseEntity<Page<LessonModel>> getAllLessons(@PathVariable(value="moduleId") UUID moduleId,
                                                            SpecificationTemplate.LessonSpec spec,
                                                            @PageableDefault(page = 0, size = 10, sort = "lessonId", direction = Sort.Direction.ASC) Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK).body(lessonService.findAllByModule(spec, pageable));
+        return ResponseEntity.status(HttpStatus.OK).body(lessonService.findAllByModule(SpecificationTemplate.lessonModuleId(moduleId).and(spec), pageable));
     }
 }
