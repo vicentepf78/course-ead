@@ -32,7 +32,7 @@ public class CourseServiceImpl implements CourseService {
     LessonRepository lessonRepository;
 
     @Autowired
-    UserRepository courseUserRepository;
+    UserRepository userRepository;
 
     @Transactional
     @Override

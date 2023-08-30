@@ -1,4 +1,4 @@
-package com.ead.course.validation;
+package com.ead.course.validations;
 
 import com.ead.course.dtos.CourseDto;
 import com.ead.course.enums.UserType;
